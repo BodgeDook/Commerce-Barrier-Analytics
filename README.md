@@ -58,6 +58,7 @@
 
 ## Архитектура репозитория
 
+```bash
 Commerce-Barrier-Analytics/
 │
 ├── synthetic_data/        # Синтетические CSV-файлы с поведением пользователей
@@ -65,14 +66,17 @@ Commerce-Barrier-Analytics/
 ├── notebooks/             # Jupyter/Colab ноутбуки для анализа и экспериментов
 ├── src/                   # Основной код проекта
 │   ├── data_generating.py # Создание синтетических данных
+│   ├── data_processing.py # Предобработка и фичи
+│   ├── model.py           # Модель классификации барьеров
+│   ├── email_gen.py       # Генерация email через LLM
+│   └── utils.py           # Вспомогательные функции
 ├── ui/                    # Streamlit приложение (в разработке)
 ├── tests/                 # Тесты модулей
 ├── requirements.txt
 └── README.md
+```
 
 ---
-
-## Технологии
 
 ## Технологии
 
