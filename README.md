@@ -1,10 +1,10 @@
 # Commerce Barrier Analytics (DA-10)
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![ML](https://img.shields.io/badge/ML-Classification-green)
 ![Streamlit](https://img.shields.io/badge/UI-Streamlit-orange)
 
-## О проекте
+## Preview проекта
 
 **Commerce Barrier Analytics** — это ИИ-система для интернет-магазинов, которая помогает выявлять реальные причины отказа пользователей от покупки и автоматически генерирует персонализированные рекомендации и email для устранения этих барьеров. В отличие от стандартных шаблонных рассылок со скидками, система фокусируется на решении конкретной проблемы, мешающей пользователю завершить покупку.  
 
@@ -60,16 +60,19 @@
 
 Commerce-Barrier-Analytics/
 │
-├── synthetic_data/ # Синтетические CSV-файлы с поведением пользователей
-├── models/ # Обученные модели классификации барьеров (на данном этапе используется только XGBoost)
-├── notebooks/ # Jupyter/Colab ноутбуки для анализа и экспериментов
-├── ui/ # Streamlit приложение (в разработке)
-├── tests/ # Тесты модулей
+├── synthetic_data/        # Синтетические CSV-файлы с поведением пользователей
+├── models/                # Обученные модели классификации барьеров (на данном этапе XGBoost)
+├── notebooks/             # Jupyter/Colab ноутбуки для анализа и экспериментов
+├── src/                   # Основной код проекта
+│   ├── data_generating.py # Создание синтетических данных
+├── ui/                    # Streamlit приложение (в разработке)
+├── tests/                 # Тесты модулей
 ├── requirements.txt
 └── README.md
 
-
 ---
+
+## Технологии
 
 ## Технологии
 
