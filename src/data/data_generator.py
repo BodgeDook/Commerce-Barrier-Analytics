@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import random
 
-
 def define_parameters():
     NUM_ROWS = 5000
 
@@ -27,14 +26,12 @@ def define_parameters():
 
     return NUM_ROWS, products, chat_vocab, neutral_words
 
-
 def generate_chat_text(barrier, chat_vocab, neutral_words):
     main_words = random.sample(chat_vocab[barrier], k=2)
     extra = random.sample(neutral_words, k=random.randint(0, 1))
     msg = main_words + extra
     random.shuffle(msg)
     return " ".join(msg)
-
 
 def generate_data(NUM_ROWS, products, chat_vocab, neutral_words):
     barriers = np.repeat([1, 2, 3, 4, 5], NUM_ROWS // 5)
@@ -65,13 +62,11 @@ def generate_data(NUM_ROWS, products, chat_vocab, neutral_words):
 
     return pd.DataFrame(rows)
 
-
 def main():
     NUM_ROWS, products, chat_vocab, neutral_words = define_parameters()
     df = generate_data(NUM_ROWS, products, chat_vocab, neutral_words)
     df.to_csv("synthetic_data/synthetics_furniture_barriers.csv", index=False)
     print("Synthetic dataset generated")
-
 
 if __name__ == "__main__":
     main()

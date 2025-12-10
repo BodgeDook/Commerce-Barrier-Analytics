@@ -1,8 +1,12 @@
 import pandas as pd
+
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import RobustScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 TEXT_COL = "x9_chat_text"
-TARGET = "Barrier_Class"
+TARGET_COL = "Barrier_Class"
 
 NUM_COLS = [
     "x1_views",
@@ -14,24 +18,56 @@ NUM_COLS = [
     "x6_warranty",
     "x7_return_page",
     "x8_email_clicks",
-    "x10_reviews"
+    "x10_reviews",
 ]
 
-def prepare_features(df: pd.DataFrame):
-    df = df.copy()
-
-    df[TEXT_COL] = df[TEXT_COL].fillna("")
-
-    X_num = df[NUM_COLS]
-    y = df[TARGET]
-
-    vectorizer = TfidfVectorizer(max_features=50)
-    X_text = vectorizer.fit_transform(df[TEXT_COL])
-
-    X = pd.concat(
-        [X_num.reset_index(drop=True),
-         pd.DataFrame(X_text.toarray())],
-        axis=1
+def build_preprocessor() -> ColumnTransformer:
+    numeric_pipeline = Pipeline(
+        steps=[
+            ("scaler", RobustScaler())
+        ]
     )
 
-    return X, y, vectorizer
+    text_pipeline = Pipeline(
+        steps=[
+            (
+                "tfidf",
+                TfidfVectorizer(
+                    max_features=50,
+                    ngram_range=(1, 2),
+                    stop_words="russian",
+                )
+            )
+        ]
+    )
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("num", numeric_pipeline, NUM_COLS),
+            ("text", text_pipeline, TEXT_COL),
+        ],
+        remainder="drop"
+    )
+
+    return preprocessor
+
+def fit_transform_features(df: pd.DataFrame):
+    df = df.copy()
+    df[TEXT_COL] = df[TEXT_COL].fillna("")
+
+    X = df[NUM_COLS + [TEXT_COL]]
+    y = df[TARGET_COL]
+
+    preprocessor = build_preprocessor()
+    X_transformed = preprocessor.fit_transform(X)
+
+    return X_transformed, y, preprocessor
+
+def transform_features(df: pd.DataFrame, preprocessor: ColumnTransformer):
+    df = df.copy()
+    df[TEXT_COL] = df[TEXT_COL].fillna("")
+
+    X = df[NUM_COLS + [TEXT_COL]]
+    X_transformed = preprocessor.transform(X)
+
+    return X_transformed

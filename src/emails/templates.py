@@ -6,6 +6,5 @@ EMAIL_TEMPLATES = {
     5: "Напоминаем о возможности бесплатного возврата в течение 30 дней."
 }
 
-
 def generate_email(barrier_class: int) -> str:
     return EMAIL_TEMPLATES.get(barrier_class, "")

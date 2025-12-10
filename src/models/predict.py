@@ -1,12 +1,19 @@
+import joblib
+import pandas as pd
+
+from src.features.preprocessing import transform_features
 from src.models.barrier_model import BarrierModel
-from src.features.preprocessing import prepare_features
-from src.data.data_loader import load_synthetic_data
 
-def predict(data_path, model_path):
-    df = load_synthetic_data(data_path)
-    X, _, _ = prepare_features(df)
+MODEL_PATH = "models/barrier_model.joblib"
+PREPROCESSOR_PATH = "models/preprocessor.joblib"
 
-    model = BarrierModel.load(model_path)
-    df["predicted_barrier"] = model.predict(X)
+def predict(df: pd.DataFrame):
+    preprocessor = joblib.load(PREPROCESSOR_PATH)
+    model = BarrierModel.load(MODEL_PATH)
 
-    return df
+    X = transform_features(df, preprocessor)
+
+    preds = model.predict(X)
+    probs = model.predict_proba(X)
+
+    return preds, probs

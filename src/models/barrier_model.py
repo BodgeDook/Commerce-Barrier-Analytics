@@ -7,7 +7,8 @@ class BarrierModel:
             n_estimators=100,
             max_depth=5,
             learning_rate=0.1,
-            eval_metric="mlogloss"
+            eval_metric="mlogloss",
+            random_state=42
         )
 
     def fit(self, X, y):
@@ -16,11 +17,14 @@ class BarrierModel:
     def predict(self, X):
         return self.model.predict(X)
 
+    def predict_proba(self, X):
+        return self.model.predict_proba(X)
+
     def save(self, path: str):
         joblib.dump(self.model, path)
 
     @staticmethod
     def load(path: str):
-        model = BarrierModel()
-        model.model = joblib.load(path)
-        return model
+        instance = BarrierModel()
+        instance.model = joblib.load(path)
+        return instance
